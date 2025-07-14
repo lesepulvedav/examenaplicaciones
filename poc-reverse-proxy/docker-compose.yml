@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  examenapp1:
+    build: ./examenapp1
+    container_name: examenapp1
+    ports:
+      - "8081:80"
+    networks:
+      - examenapp-net
+
+  examenapp2:
+    build: ./examenapp2
+    container_name: examenapp2
+    ports:
+      - "8082:80"
+    networks:
+      - examenapp-net
+
+  reverse-proxy:
+    build: ./reverse-proxy
+    container_name: examenreverse-proxy
+    ports:
+      - "8080:80"
+    depends_on:
+      - examenapp1
+      - examenapp2
+    networks:
+      - examenapp-net
+
+networks:
+  examenapp-net:
+    driver: bridge
